@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TourOperatorApp.Models.Instructor>
+@{
+    ViewBag.Title = "Инструкторы";
+}
+
+<div class="btn-group">
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle"
+                data-bs-toggle="dropdown">
+            Вывод:
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item btn btn-outline-dark" asp-action="Instructors">по умолчанию</a>
+            <a class="dropdown-item btn btn-outline-dark" asp-action="InstctsSortByCategory">по убыванию категорий</a>
+            <a class="dropdown-item btn btn-outline-dark" asp-action="InstctsSortByAlphabet">в алфавитном порядке</a>
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-dark dropdown-toggle"
+                data-bs-toggle="dropdown">
+            Категория:
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item btn btn-outline-dark" asp-action="InstctsShowByCategory" asp-route-cat="A">A</a>
+            <a class="dropdown-item btn btn-outline-dark" asp-action="InstctsShowByCategory" asp-route-cat="B">B</a>
+            <a class="dropdown-item btn btn-outline-dark" asp-action="InstctsShowByCategory" asp-route-cat="C">C</a>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Категория</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.BornDate.ToShortDateString()</td>
+                    <td>@item.Category</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

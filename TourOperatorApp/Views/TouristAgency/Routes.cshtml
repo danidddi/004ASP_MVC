@@ -1,0 +1,78 @@
+﻿@model IEnumerable<TourOperatorApp.Models.Route>
+@{
+    ViewBag.Title = "Маршруты";
+    ViewBag.Points = new SelectList(Utils.pointsList);
+}
+
+
+<a class="btn btn-outline-dark" asp-action="AddRoute" >Добавить...</a>
+
+
+<div class="btn-group">
+    <button type="button" class="btn btn-outline-dark dropdown-toggle"
+            data-bs-toggle="dropdown">
+        Вывод:
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item btn btn-outline-dark" asp-action="Routes">по умолчанию</a>
+        <a class="dropdown-item btn btn-outline-dark" asp-action="RtsSortByLengthDesc">по убыванию протяженности маршрута</a>
+        <a class="dropdown-item btn btn-outline-dark" asp-action="RtsSortByLength">по возрастанию протяженности маршрута</a>
+        <a class="dropdown-item btn btn-outline-dark" asp-action="RtsSortByDiff">по возрастанию сложности</a>
+    </div>
+</div>
+
+<div class="btn-group">
+
+
+    <form method="post" class="btn-group d-flex" title="Маршруты с заданным пунктом">
+        <select required class="form-select btn btn-outline-dark" name="point" asp-items="@ViewBag.Points"></select>
+        <button type="submit" asp-action="ShowByStartPoint" asp-route-point="point" class="btn btn-dark">Начальный</button>
+        <button type="submit" asp-action="ShowByBrakePoint" asp-route-point="point" class="btn btn-dark">Промежуточный</button>
+    </form>
+</div>
+<div class="btn-group">
+
+    <form method="post" class="input-group d-flex" title="Поиск по протяженности маршрута">
+        <input type="number" required class="form-control" placeholder="от..." name="lengthFrom" />
+        <input type="number" required class="form-control" placeholder="до..." name="lengthTo" />
+        <button type="submit" class="btn btn-dark" asp-action="ShowByLength" asp-route-from="lengthFrom" asp-route-to="lengthTo">
+            Найти
+        </button>
+    </form>
+
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Начальный пункт</th>
+                <th>Остановка</th>
+                <th>Конечный пункт</th>
+                <th>Длина маршрута (км)</th>
+                <th>Сложность</th>
+                <th>Инструктор</th>
+                <th>Редактирование</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td>@item.StartPoint</td>
+                    <td>@item.BrakePoint</td>
+                    <td>@item.EndPoint</td>
+                    <td>@item.Length</td>
+                    <td>@item.Difficulty</td>
+                    <td>@item.Instructor.ToShortInfo</td>
+                    <td>
+                        <form method="post">
+                            <a asp-action="EditeRoute" asp-route-id="@item.Id" class="btn btn-outline-warning me-4">E</a>
+                            <button type="submit" asp-action="DeleteRoute" asp-route-id="@item.Id" class="btn btn-outline-danger">Х</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
