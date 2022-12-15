@@ -19,7 +19,7 @@ public class Route
 
     public Route()
     {
-
+        Id = -1;
     }
 
     public Route(int id, string startPoint, string brakePoint, string endPoint, int length, string difficulty, Instructor instructor)

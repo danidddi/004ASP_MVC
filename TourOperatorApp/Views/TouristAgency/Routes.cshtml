@@ -67,8 +67,12 @@
                     <td>@item.Instructor.ToShortInfo</td>
                     <td>
                         <form method="post">
-                            <a asp-action="EditeRoute" asp-route-id="@item.Id" class="btn btn-outline-warning me-4">E</a>
-                            <button type="submit" asp-action="DeleteRoute" asp-route-id="@item.Id" class="btn btn-outline-danger">Х</button>
+                            <a asp-action="EditeRoute" asp-route-id="@item.Id" class="btn btn-outline-warning me-4">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <button type="submit" asp-action="DeleteRoute" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>

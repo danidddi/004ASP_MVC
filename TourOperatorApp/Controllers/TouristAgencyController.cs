@@ -16,7 +16,7 @@ public class TouristAgencyController : Controller
     #region CRUD
     //переход на страницу с формой маршрута для его добавления
     public IActionResult AddRoute() => View("RouteForm", new Models.Route());
-    //переход на страницу с формой маршрута для его редактирование
+    //переход на страницу с формой маршрута для его редактирования
     public IActionResult EditeRoute(int id) => View("RouteForm", TouristAgency.Routes.Find(x => x.Id == id));
     //добавление или редактирвоание маршрута
     [HttpPost]
@@ -24,7 +24,7 @@ public class TouristAgencyController : Controller
     {
         item.Instructor = Utils.instructorsList.Find(x => x.Id == item.InstructorId)!;
 
-        if (item.Id == 0)
+        if (item.Id == -1)
         {
             item.Id = TouristAgency.GetNewRouteId();
             TouristAgency.AddRoute(item);
@@ -37,6 +37,18 @@ public class TouristAgencyController : Controller
 
         return View("Routes", TouristAgency.Routes);
     }
+    //переход на страницу с формой инструктора для его редактирования
+    public IActionResult EditeInstructor(int id) => View("InstructorForm", TouristAgency.Instructors.Find(x => x.Id == id));
+    //редактирвоание маршрута
+    [HttpPost]
+    public IActionResult UpdateInstructor(Instructor item)
+    {
+        TouristAgency.UpdateInstructor(item);
+        Utils.instructorsList = TouristAgency.Instructors;
+
+        return View("Instructors", TouristAgency.Instructors);
+    }
+
     //удаление маршрута
     public IActionResult DeleteRoute(int id)
     {
@@ -59,6 +71,8 @@ public class TouristAgencyController : Controller
     //Вывод сведений об инструкторах в алфавитном порядке
     public IActionResult InstctsSortByAlphabet()
         => View("Instructors", TouristAgency.Instructors.OrderBy(x => x.Name));
+    //метод возвращающий JSON представление инструктора
+    public IActionResult Details(int id) => Json(TouristAgency.Instructors.Find(x => x.Id == id));
     #endregion
 
     #region Действия с коллекцие маршрутов 

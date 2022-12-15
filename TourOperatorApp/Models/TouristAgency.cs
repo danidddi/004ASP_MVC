@@ -53,6 +53,12 @@ public class TouristAgency
         SerializeRoutes();
 
     }
+    //обновление инструктора
+    public void UpdateInstructor(Instructor instructor)
+    {
+        Instructors[Instructors.FindIndex(x => x.Id == instructor.Id)] = instructor;
+        SerializeInstructors();
+    }
     //метод возвращает новый айди для маршрута
     public int GetNewRouteId() => Routes.Max(x => x.Id) + 1;
 

@@ -28,13 +28,14 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div id="table" class="table-responsive">
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Имя</th>
                 <th>Дата рождения</th>
                 <th>Категория</th>
+                <th>Управление</th>
             </tr>
         </thead>
         <tbody>
@@ -44,8 +45,43 @@
                     <td>@item.Name</td>
                     <td>@item.BornDate.ToShortDateString()</td>
                     <td>@item.Category</td>
+                    <td>
+                        <form method="post" >
+
+                            <a class="btn btn-outline-info" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#infoModal">
+                                <i class="bi bi-info-circle-fill" data-id="@item.Id"></i>
+                            </a>
+                            <button type="submit" asp-action="EditeInstructor" asp-route-id="@item.Id" class="btn btn-outline-warning">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+
+<!-- Модальное окно -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Инструктор</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p>id: <span id="idspan"></span></p>
+                <p>Имя: <span id="namespan"></span></p>
+                <p>Дата рождения: <span id="datespan"></span></p>
+                <p>Категория: <span id="categoryspan"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/instructorInfo.js"></script>

@@ -1,0 +1,47 @@
+﻿@model Instructor
+@{
+    ViewBag.Title = "Редактор инструктора";
+    ViewBag.Categorys = new SelectList(Utils.categorysList);
+
+}
+<section class="mx-auto my-4 bg-dark shadow-sm border rounded-3 h-75 p-3 w-50">
+
+    <form method="post" class="mx-4" asp-action="UpdateInstructor">
+
+        <h4 class="text-center text-light">Введите данные инструктора</h4>
+
+        <hr>
+
+        @* id *@
+        <input asp-for="Id" value="@Model.Id">
+        @* ToShortInfo *@
+        <input asp-for="ToShortInfo" value="@Model.ToShortInfo">
+
+        @* имя *@
+        <div class="input-group my-3">
+            <label asp-for="Name" class="input-group-text w-16rem"></label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+
+        @* дата рождения *@
+        <div class="input-group my-3">
+            <label asp-for="BornDate" class="input-group-text w-16rem"></label>
+            <input asp-for="BornDate" class="form-control" required />
+        </div>
+
+        @* категория *@
+        <div class="input-group my-3">
+            <label asp-for="Category" class="input-group-text w-16rem"></label>
+            <select asp-items="@ViewBag.Categorys" asp-for="Category" class="form-select" required></select>
+        </div>
+
+        <hr>
+
+        @* управление *@
+        <div class="d-flex justify-content-end">
+            <input class="btn btn-outline-success w-10rem me-3" type="submit" value="Сохранить">
+            <a class="btn btn-outline-danger w-10rem" asp-action="Instructors">Выйти</a>
+        </div>
+    </form>
+
+</section>

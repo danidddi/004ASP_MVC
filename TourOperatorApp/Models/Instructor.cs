@@ -4,14 +4,31 @@ namespace TourOperatorApp.Models;
 
 public class Instructor
 {
-    //Сведения об инструкторах содержат: идентификатор инструктора, фамилия, имя,
-    //отчество, дата рождения, категория(А, В, С; А – низшая категория, С – высшая категория).
+    //Сведения об инструкторах содержат
+
+    //идентификатор инструктора
+    [UIHint("HiddenInput")]
     public int Id { get; set; }
-    // это текст, выводимый в label, декорированной asp-for
-    [Display(Name = "Имя")] public string Name { get; set; }
+
+    //фамилия, имя, отчество
+    [Display(Name = "Имя")] // это текст, выводимый в label, декорированной asp-for
+    public string Name { get; set; }
+
+    //дата рождения
+    [Display(Name = "Дата рождения")]
+    [UIHint("Date")] // параметры отображения, не нужно прописывать тип input
     public DateTime BornDate { get; set; }
-    public char Category { get; set; }
-    public string ToShortInfo => $"{Name}({Category})";
+
+    //категория(А, В, С; А – низшая категория, С – высшая категория)
+    [Display(Name = "Категория")] public char Category { get; set; }
+
+    // имя и категория - свойство только для чтения
+    [UIHint("HiddenInput")] public string ToShortInfo => $"{Name}({Category})";
+
+    public Instructor()
+    {
+
+    }
     public Instructor(int id, string name, DateTime bornDate, char category)
     {
         Id = id;
@@ -20,5 +37,4 @@ public class Instructor
         Category = category;
     }
 
-    //строка содержащая имя и категорию интсруктора
 }

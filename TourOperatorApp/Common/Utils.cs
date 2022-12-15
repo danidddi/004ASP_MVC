@@ -18,8 +18,7 @@ public class Utils
                 new Instructor(1,"Пенов Андрей Иванович", new DateTime(1983,3,13),'B'),
                 new Instructor(2,"Судиловский Петр Игоревич", new DateTime(1995,11,4),'C'),
                 new Instructor(3,"Андреев Денис Петрович", new DateTime(1980,8,18),'A'),
-                new Instructor(4,"Вершинин Игорь Денисович", new DateTime(1988,4,1),'C')
-            };
+                new Instructor(4,"Вершинин Игорь Денисович", new DateTime(1988,4,1),'C')};
     public static List<Models.Route> routesList = new List<Models.Route>() {
                 new Models.Route(0,"Херсон", "Олешковские пески", "Аскания-Нова", 167, "A-", instructorsList[0]),
                 new Models.Route(1,"Ужгород", "Невицкое", "Карпаты", 80, "A", instructorsList[1]),
@@ -30,7 +29,7 @@ public class Utils
                 new Models.Route(6,"Черновцы", "Залещики", "Нырков", 55, "C-", instructorsList[1]),
                 new Models.Route(7,"Киев", "Буки", "Умань", 80, "C", instructorsList[2]),
                 new Models.Route(8,"Коростень", "Новоград-Волынский", "Корец", 30, "C+", instructorsList[3]),
-                new Models.Route(9,"Луцк", "Дубно", "Клевань", 70, "A-", instructorsList[4])
-            };
+                new Models.Route(9,"Луцк", "Дубно", "Клевань", 70, "A-", instructorsList[4])};
+    public static List<char> categorysList = new List<char> { 'A', 'B', 'C' };
 }
 
