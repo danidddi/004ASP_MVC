@@ -1,11 +1,8 @@
-﻿// вспомогательная функция для доступа к элементам DOM
-$ = id => document.getElementById(id);
-
-// объект для AJAX-запроса - чистый JavaScript
+﻿// объект для AJAX-запроса - чистый JavaScript
 // AJAX - Asynchronous Javascript And XML 
 let xhr = new XMLHttpRequest();
 
-let btn = $("table");
+let btn = document.getElementById("table");
 btn.addEventListener("click",
     (e) => {
 
@@ -18,11 +15,9 @@ btn.addEventListener("click",
         // настроить callback-функцию - сработает по приему данных
         xhr.onload = () => {
             let instructor = JSON.parse(xhr.response);
-            console.log(instructor);
-
-            $("idspan").innerHTML = instructor.id;
-            $("namespan").innerHTML = instructor.name;
-            $("datespan").innerHTML = new Date(instructor.bornDate).toLocaleDateString();
-            $("categoryspan").innerHTML = instructor.category;
+            document.getElementById("idspan").innerHTML = instructor.id;
+            document.getElementById("namespan").innerHTML = instructor.name;
+            document.getElementById("datespan").innerHTML = new Date(instructor.bornDate).toLocaleDateString();
+            document.getElementById("categoryspan").innerHTML = instructor.category;
         };
     });

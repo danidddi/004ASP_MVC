@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using TourOperatorApp.Common;
 
-namespace TourOperatorApp.Models;
+namespace TourOperatorApp.Models.TourOperator;
 public class TouristAgency
 {
     private readonly string _instructorsPath = $"{Environment.CurrentDirectory}\\App_Data\\instructors.json";
@@ -11,7 +11,7 @@ public class TouristAgency
 
     public TouristAgency()
     {
-        if (File.Exists(_instructorsPath)) 
+        if (File.Exists(_instructorsPath))
             DeserializeInstructors();
         else
         {
@@ -19,7 +19,7 @@ public class TouristAgency
             SerializeInstructors();
         }
 
-        if (File.Exists(_routesPath)) 
+        if (File.Exists(_routesPath))
             DeserializeRoutes();
         else
         {

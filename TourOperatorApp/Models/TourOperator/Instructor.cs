@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TourOperatorApp.Models;
+namespace TourOperatorApp.Models.TourOperator;
 
 public class Instructor
 {

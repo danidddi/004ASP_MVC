@@ -1,4 +1,6 @@
-﻿namespace TourOperatorApp.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TourOperatorApp.Models.TourOperator;
 
 public class Route
 {
@@ -9,12 +11,32 @@ public class Route
     //С+ соответствует максимальной сложности), фамилия и инициалы инструктора маршрута(всего на фирме работает
     //пять инструкторов, не требуется редактировать сведения об инструкторах).
     public int Id { get; set; }
+
+    [Required(ErrorMessage = "Обязательно к заполнению")]
+    [Display(Name = "Начальный пункт")]
     public string StartPoint { get; set; }
+
+    [Required(ErrorMessage = "Обязательно к заполнению")]
+    [Display(Name = "Промежуточный пункт")]
     public string BrakePoint { get; set; }
+
+    [Required(ErrorMessage = "Обязательно к заполнению")]
+    [Display(Name = "Конечный маршрута")]
     public string EndPoint { get; set; }
+
+    [Required(ErrorMessage = "Обязательно к заполнению")]
+    [Range(1, long.MaxValue, ErrorMessage = "Длина маршрута не может быть отрицательной или нулевой")]
+    [Display(Name = "Длина маршрута")]
     public int Length { get; set; }
+
+    [Required(ErrorMessage = "Обязательно к заполнению")]
+    [Display(Name = "Сложность")]
     public string Difficulty { get; set; }
+
     public Instructor Instructor { get; set; }
+
+    [Required(ErrorMessage = "Обязательно к заполнению")]
+    [Display(Name = "Инструктор")]
     public int InstructorId { get; set; }
 
     public Route()

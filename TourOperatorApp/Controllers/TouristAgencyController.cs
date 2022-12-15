@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TourOperatorApp.Common;
-using TourOperatorApp.Models;
+using TourOperatorApp.Models.TourOperator;
+using TourOperatorApp.Models.ViewModels;
 
 namespace TourOperatorApp.Controllers;
 
@@ -15,13 +16,18 @@ public class TouristAgencyController : Controller
 
     #region CRUD
     //переход на страницу с формой маршрута для его добавления
-    public IActionResult AddRoute() => View("RouteForm", new Models.Route());
+    public IActionResult AddRoute() => View("RouteForm", new Models.TourOperator.Route());
     //переход на страницу с формой маршрута для его редактирования
     public IActionResult EditeRoute(int id) => View("RouteForm", TouristAgency.Routes.Find(x => x.Id == id));
     //добавление или редактирвоание маршрута
     [HttpPost]
-    public IActionResult CreateOrUpdateRoute(Models.Route item)
+    public IActionResult CreateOrUpdateRoute(Models.TourOperator.Route item)
     {
+        //валидация
+        if (!ModelState.IsValid)
+            return View("RouteForm", item);
+
+
         item.Instructor = Utils.instructorsList.Find(x => x.Id == item.InstructorId)!;
 
         if (item.Id == -1)
@@ -53,10 +59,10 @@ public class TouristAgencyController : Controller
     public IActionResult DeleteRoute(int id)
     {
         TouristAgency.RemoveRoute(TouristAgency.Routes.FirstOrDefault(x => x.Id == id)!);
-        return View("Routes", TouristAgency.Routes);
+        return View("Routes", new RoutesViewModel{ Routes = TouristAgency.Routes });
     }
     //вывод маршрутов
-    public IActionResult Routes() => View("Routes", TouristAgency.Routes);
+    public IActionResult Routes() => View("Routes", new RoutesViewModel { Routes = TouristAgency.Routes });
     //вывод инструкторов
     public IActionResult Instructors() => View(TouristAgency.Instructors);
     #endregion
@@ -71,18 +77,23 @@ public class TouristAgencyController : Controller
     //Вывод сведений об инструкторах в алфавитном порядке
     public IActionResult InstctsSortByAlphabet()
         => View("Instructors", TouristAgency.Instructors.OrderBy(x => x.Name));
-    //метод возвращающий JSON представление инструктора
+
+
+
     public IActionResult Details(int id) => Json(TouristAgency.Instructors.Find(x => x.Id == id));
+    public IActionResult RDetails(int id) => Json(TouristAgency.Routes.Find(x => x.Id == id));
+
     #endregion
 
     #region Действия с коллекцие маршрутов 
 
     //Вывод сведений о маршруте по убыванию протяженности маршрута
     public IActionResult RtsSortByLengthDesc()
-        => View("Routes", TouristAgency.Routes.OrderByDescending(x => x.Length));
+        => View("Routes", new RoutesViewModel { Routes = TouristAgency.Routes.OrderByDescending(x => x.Length).ToList() });
     //Вывод сведений о маршруте по убыванию протяженности маршрута
     public IActionResult RtsSortByLength()
-        => View("Routes", TouristAgency.Routes.OrderBy(x => x.Length));
+        => View("Routes", new RoutesViewModel { Routes = TouristAgency.Routes.OrderBy(x => x.Length).ToList() });
+
     //Вывод сведений о маршруте по возрастанию сложности
     public IActionResult RtsSortByDiff()
     {
@@ -99,20 +110,36 @@ public class TouristAgencyController : Controller
             ["C+"] = 8,
         };
 
-        return View("Routes", TouristAgency.Routes.OrderBy(x => diff[x.Difficulty]));
+        return View("Routes"
+            , new RoutesViewModel { Routes = TouristAgency.Routes.OrderBy(x => diff[x.Difficulty]).ToList() });
     }
-    //Вывод маршрутов с заданным начальным пунктом
+
+
+    public IActionResult ShowByPoint(string value, string point)
+    {
+        var items = point switch
+        {
+            "start" => TouristAgency.Routes.Where(x => x.StartPoint.Equals(point)),
+            "brake" => TouristAgency.Routes.Where(x => x.BrakePoint.Equals(point)),
+        };
+        return View("Routes"
+            , new RoutesViewModel { Routes = items.ToList() });
+    }
+
+
+    ////Вывод маршрутов с заданным начальным пунктом
+    //[HttpPost]
+    //public IActionResult ShowByStartPoint(string point)
+    //    => View("Routes", TouristAgency.Routes.Where(x => x.StartPoint.Equals(point)));
+    ////Вывод маршрутов, проходящих через заданный промежуточный пункт
+    //[HttpPost]
+    //public IActionResult ShowByBrakePoint(string point)
+    //    => View("Routes", TouristAgency.Routes.Where(x => x.BrakePoint.Equals(point)));
+    ////Вывод маршрутов с протяженностью, попадающей в заданный интервал
     [HttpPost]
-    public IActionResult ShowByStartPoint(string point)
-        => View("Routes", TouristAgency.Routes.Where(x => x.StartPoint.Equals(point)));
-    //Вывод маршрутов, проходящих через заданный промежуточный пункт
-    [HttpPost]
-    public IActionResult ShowByBrakePoint(string point)
-        => View("Routes", TouristAgency.Routes.Where(x => x.BrakePoint.Equals(point)));
-    //Вывод маршрутов с протяженностью, попадающей в заданный интервал
-    [HttpPost]
-    public IActionResult ShowByLength(int lengthFrom, int lengthTo)
-        => View("Routes", TouristAgency.Routes.Where(x => x.Length >= lengthFrom && x.Length <= lengthTo));
+    public IActionResult ShowByLength(int Min, int Max)
+        => View("Routes"
+            , new RoutesViewModel { Routes = TouristAgency.Routes.Where(x => x.Length >= Min && x.Length <= Max).ToList() });
     #endregion
 
 }

@@ -20,19 +20,19 @@
         @* имя *@
         <div class="input-group my-3">
             <label asp-for="Name" class="input-group-text w-16rem"></label>
-            <input asp-for="Name" class="form-control" required />
+            <input asp-for="Name" class="form-control" />
         </div>
 
         @* дата рождения *@
         <div class="input-group my-3">
             <label asp-for="BornDate" class="input-group-text w-16rem"></label>
-            <input asp-for="BornDate" class="form-control" required />
+            <input asp-for="BornDate" class="form-control" />
         </div>
 
         @* категория *@
         <div class="input-group my-3">
             <label asp-for="Category" class="input-group-text w-16rem"></label>
-            <select asp-items="@ViewBag.Categorys" asp-for="Category" class="form-select" required></select>
+            <select asp-items="@ViewBag.Categorys" asp-for="Category" class="form-select"></select>
         </div>
 
         <hr>
