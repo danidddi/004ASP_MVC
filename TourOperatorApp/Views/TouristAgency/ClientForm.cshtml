@@ -1,0 +1,82 @@
+﻿@model ClientFormViewModel
+@{
+    ViewBag.Title = "Редактор клиента";
+}
+
+<section class="mx-auto my-4 bg-dark shadow-sm border rounded-3 h-75 p-3 w-50">
+
+    <form method="post" enctype="multipart/form-data" class="mx-4" asp-action="CreateOrUpdateClient">
+
+        <h4 class="text-center text-light">Введите данные клиента</h4>
+
+        <hr>
+
+        @* id *@
+        <input asp-for="Client.Id" type="hidden" value="@Model.Client.Id">
+        @* фото *@
+        <input asp-for="Client.Img" type="hidden" value="@Model.Client.Img">
+
+        @* имя *@
+        <div class="input-group my-3">
+            <label asp-for="Client.Name" class="input-group-text w-16rem"></label>
+            <input asp-for="Client.Name" class="form-control" />
+        </div>
+        <span asp-validation-for="Client.Name" class="text-danger"></span>
+
+        @* телефонный номер *@
+        <div class="input-group my-3">
+            <label asp-for="Client.PhoneNumber" class="input-group-text w-16rem"></label>
+            <input asp-for="Client.PhoneNumber" class="form-control" />
+        </div>
+        <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
+
+        @* почта *@
+        <div class="input-group my-3">
+            <label asp-for="Client.EmailAddress" class="input-group-text w-16rem"></label>
+            <input asp-for="Client.EmailAddress" class="form-control" />
+        </div>
+        <span asp-validation-for="Client.EmailAddress" class="text-danger"></span>
+
+        @* возраст *@
+        <div class="input-group my-3">
+            <label asp-for="Client.Age" class="input-group-text w-16rem"></label>
+            <input asp-for="Client.Age" class="form-control" />
+        </div>
+        <span asp-validation-for="Client.Age" class="text-danger"></span>
+
+        @if (ViewBag.IsEdite)
+        {
+            <input asp-for="Client.Password" hidden class="form-control" />
+        }
+        else
+        {
+            <div class="input-group my-3">
+                <label asp-for="Client.Password" class="input-group-text w-16rem"></label>
+                <input asp-for="Client.Password" class="form-control" />
+            </div>
+            <span asp-validation-for="Client.Password" class="text-danger"></span>
+        }
+
+        @* фото *@
+        <div class="input-group my-3">
+            <label asp-for="ImgFile" class="input-group-text w-16rem"></label>
+            <input asp-for="ImgFile" type="file" class="form-control" />
+            <span asp-validation-for="ImgFile" class="text-danger"></span>
+        </div>
+
+        @* постоянный клиент *@
+        <div class="my-3">
+            <input type="checkbox" asp-for="Client.IsRegular" class="form-check-input me-2" />
+            <label asp-for="Client.IsRegular" class="form-check-label text-white w-16rem"></label>
+        </div>
+
+        <hr>
+
+        @* управление *@
+        <div class="d-flex justify-content-end">
+            <input class="btn btn-outline-success w-10rem me-3" type="submit" value="Сохранить">
+            <a class="btn btn-outline-danger w-10rem" asp-action="Clients">Выйти</a>
+        </div>
+    </form>
+
+</section>

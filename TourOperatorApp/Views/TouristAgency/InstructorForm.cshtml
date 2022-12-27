@@ -22,18 +22,21 @@
             <label asp-for="Name" class="input-group-text w-16rem"></label>
             <input asp-for="Name" class="form-control" />
         </div>
+            <span asp-validation-for="Name" class="text-danger"></span>
 
         @* дата рождения *@
         <div class="input-group my-3">
             <label asp-for="BornDate" class="input-group-text w-16rem"></label>
             <input asp-for="BornDate" class="form-control" />
         </div>
+            <span asp-validation-for="BornDate" class="text-danger"></span>
 
         @* категория *@
         <div class="input-group my-3">
             <label asp-for="Category" class="input-group-text w-16rem"></label>
             <select asp-items="@ViewBag.Categorys" asp-for="Category" class="form-select"></select>
         </div>
+            <span asp-validation-for="Category" class="text-danger"></span>
 
         <hr>
 

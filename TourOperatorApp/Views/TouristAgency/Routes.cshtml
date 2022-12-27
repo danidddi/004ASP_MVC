@@ -20,31 +20,59 @@
     </div>
 </div>
 
-@*TODO переместить фильтры в модальное окно*@
-<div class="btn-group">
+<a class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#filterModal">Фильтр...</a>
 
 
-    <form method="post" class="btn-group d-flex" title="Маршруты с заданным пунктом">
-        <select required class="form-select btn btn-outline-dark" name="value" asp-items="@ViewBag.Points"></select>
-        <button type="submit" asp-action="ShowByPoint" asp-route-value="value" asp-route-point="start" class="btn btn-dark">Начальный</button>
-        <button type="submit" asp-action="ShowByPoint" asp-route-value="value" asp-route-point="brake" class="btn btn-dark">Промежуточный</button>
-    </form>
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Фильтры</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form method="post" title="Маршруты с заданным пунктом">
+                        <label class="form-label">Промежуточный пункт</label>
+                        <div class="input-group">
+                            <select class="form-select btn btn-outline-dark" asp-for="@Model.RoutePoint" asp-items="@ViewBag.Points"></select>
+                            <button type="submit" asp-action="ShowByPoint"  asp-route-point="brake" class="btn btn-outline-dark">Найти</button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form method="post" title="Маршруты с заданным пунктом">
+                        <label class="form-label">Начальный пункт</label>
+                        <div class="input-group">
+                            <select class="form-select btn btn-outline-dark" asp-for="@Model.RoutePoint" asp-items="@ViewBag.Points"></select>
+                            <button type="submit" asp-action="ShowByPoint" asp-route-point="start" class="btn btn-outline-dark">Найти</button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form method="post" title="Поиск по протяженности маршрута">
+                        <label class="form-label">Поиск по протяженности маршрута</label>
+                        <div class="input-group">
+                            <input asp-for="@Model.Min" class="form-control" placeholder="от..." />
+                            <span asp-validation-for="@Model.Min" class="text-danger"></span>
+
+                            <input asp-for="@Model.Max" class="form-control" placeholder="до..." />
+                            <span asp-validation-for="@Model.Max" class="text-danger"></span>
+
+                            <button type="submit" class="btn btn-outline-dark" asp-action="ShowByLength">
+                                Найти
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="btn-group">
 
-    <form method="post" class="input-group d-flex" title="Поиск по протяженности маршрута">
-        <input asp-for="@Model.Min" class="form-control" placeholder="от..." />
-        <span asp-validation-for="@Model.Min" class="text-danger"></span>
-
-        <input asp-for="@Model.Max" class="form-control" placeholder="до..." />
-        <span asp-validation-for="@Model.Max" class="text-danger"></span>
-
-        <button type="submit" class="btn btn-dark" asp-action="ShowByLength">
-            Найти
-        </button>
-    </form>
-
-</div>
 
 <div id="table" class="table-responsive">
     <table class="table table-hover">
@@ -74,7 +102,7 @@
                             <a class="btn btn-outline-info" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#infoRouteModal">
                                 <i class="bi bi-info-circle-fill" data-id="@item.Id"></i>
                             </a>
-                            <a asp-action="EditeRoute" asp-route-id="@item.Id" class="btn btn-outline-warning me-4">
+                            <a asp-action="EditeRoute" asp-route-id="@item.Id" class="btn btn-outline-warning">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <button type="submit" asp-action="DeleteRoute" asp-route-id="@item.Id" class="btn btn-outline-danger">
@@ -93,7 +121,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="routeModalLabel">Информация о маршруте</h5>
+                <h5 class="modal-title">Информация о маршруте</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">

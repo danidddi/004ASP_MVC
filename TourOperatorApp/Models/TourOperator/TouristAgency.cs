@@ -6,71 +6,93 @@ public class TouristAgency
 {
     private readonly string _instructorsPath = $"{Environment.CurrentDirectory}\\App_Data\\instructors.json";
     private readonly string _routesPath = $"{Environment.CurrentDirectory}\\App_Data\\routes.json";
+    private readonly string _clientssPath = $"{Environment.CurrentDirectory}\\App_Data\\clients.json";
     public List<Instructor> Instructors { get; set; }
     public List<Route> Routes { get; set; }
+    public List<Client> Clients { get; set; }
 
-    public TouristAgency()
+    public TouristAgency()  
     {
         if (File.Exists(_instructorsPath))
-            DeserializeInstructors();
+            Instructors = Utils.Deserialize<Instructor>(_instructorsPath);
         else
         {
             Instructors = Utils.instructorsList;
-            SerializeInstructors();
+            Utils.Serialize(_instructorsPath, Instructors);
         }
 
         if (File.Exists(_routesPath))
-            DeserializeRoutes();
+            Routes = Utils.Deserialize<Route>(_routesPath);
         else
         {
             Routes = Utils.routesList;
-            SerializeRoutes();
+            Utils.Serialize(_routesPath, Routes);
+        }
+
+        if (File.Exists(_clientssPath))
+            Clients = Utils.Deserialize<Client>(_clientssPath);
+        else
+        {
+            Clients = Utils.clientsList;
+            Utils.Serialize(_clientssPath, Clients);
         }
     }
 
+    //обновление инструктора
+    public void UpdateInstructor(Instructor instructor)
+    {
+        Instructors[Instructors.FindIndex(x => x.Id == instructor.Id)] = instructor;
+        Utils.Serialize(_instructorsPath, Instructors);
+    }
     //удаление инструктора
     public void RemoveInstructor(Instructor instructor)
     {
         Instructors.Remove(instructor);
-        SerializeInstructors();
+        Utils.Serialize(_instructorsPath, Instructors);
     }
-    //удаление маршрута
-    public void RemoveRoute(Route route)
-    {
-        Routes.Remove(route);
-        SerializeRoutes();
-    }
+
+
     //добавление маршрута
     public void AddRoute(Route route)
     {
         Routes.Insert(0, route);
-        SerializeRoutes();
+        Utils.Serialize(_routesPath, Routes);
     }
     //обновление маршрута
     public void UpdateRoute(Route route)
     {
         Routes[Routes.FindIndex(x => x.Id == route.Id)] = route;
-        SerializeRoutes();
-
+        Utils.Serialize(_routesPath,Routes);
     }
-    //обновление инструктора
-    public void UpdateInstructor(Instructor instructor)
+    //удаление маршрута
+    public void RemoveRoute(Route route)
     {
-        Instructors[Instructors.FindIndex(x => x.Id == instructor.Id)] = instructor;
-        SerializeInstructors();
+        Routes.Remove(route);
+        Utils.Serialize(_routesPath, Routes);
     }
     //метод возвращает новый айди для маршрута
     public int GetNewRouteId() => Routes.Max(x => x.Id) + 1;
 
-    #region Serializetion 
-    private void SerializeInstructors()
-        => File.WriteAllText(_instructorsPath, JsonConvert.SerializeObject(Instructors));
-    private void DeserializeInstructors()
-        => Instructors = JsonConvert.DeserializeObject<List<Instructor>>(File.ReadAllText(_instructorsPath))!;
-    private void SerializeRoutes()
-        => File.WriteAllText(_routesPath, JsonConvert.SerializeObject(Routes));
-    private void DeserializeRoutes()
-        => Routes = JsonConvert.DeserializeObject<List<Route>>(File.ReadAllText(_routesPath))!;
-    #endregion
 
+    //добавление клиента
+    public void AddClient(Client client)
+    {
+        Clients.Insert(0, client);
+        Utils.Serialize(_clientssPath, Clients);
+    }
+    //обновление клиента
+    public void UpdateClient(Client client)
+    {
+        Clients[Clients.FindIndex(x => x.Id == client.Id)] = client;
+        Utils.Serialize(_clientssPath, Clients);
+    }
+    //удаление клиента
+    public void RemoveClient(Client client)
+    {
+        File.Delete(Directory.GetCurrentDirectory() + "\\wwwroot\\img\\clients\\" + client.Img);
+        Clients.Remove(client);
+        Utils.Serialize(_clientssPath, Clients);
+    }
+    //метод возвращает новый айди для клиента
+    public int GetNewClientId() => Clients.Max(x => x.Id) + 1;
 }
